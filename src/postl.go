@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
 	"fmt"
 	"io/ioutil"
@@ -26,12 +27,11 @@ func executePost(url string, data string) string {
 	defer response.Body.Close()
 
 	if response.StatusCode == 200 {
-		bodyBytes, parseErr := ioutil.ReadAll(response.Body)
-		if parseErr != nil {
-			return parseErr.Error()
+		content, parseError := ioutil.ReadAll(response.Body)
+		if parseError != nil {
+			return parseError.Error()
 		}
-		bodyString := string(bodyBytes)
-		return bodyString
+		return string(content)
 	}
 
 	return "Could not complete request"
@@ -46,13 +46,12 @@ func main() {
 
 	url := args[0]
 
+	scanner := bufio.NewScanner(os.Stdin)
 	for {
-		var text string
 		fmt.Printf("%s %s ", url, ">")
-		fmt.Scanln(&text)
-
+		scanner.Scan()
+		text := scanner.Text()
 		responseText := executePost(url, text)
-
 		fmt.Println(responseText)
 	}
 }

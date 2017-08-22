@@ -6,10 +6,6 @@ import (
 	"net/http"
 )
 
-type Command struct {
-	text string
-}
-
 func handler(w http.ResponseWriter, r *http.Request) {
 
 	bodyBytes, err := ioutil.ReadAll(r.Body)
@@ -18,9 +14,9 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 	bodyString := string(bodyBytes)
 
-	fmt.Printf("got: %s \n", bodyString)
+	fmt.Printf("Received: %s \n", bodyString)
 
-	fmt.Fprintf(w, "Parsed:  %s!", bodyString)
+	fmt.Fprintf(w, "Server Parsed:  %s!", bodyString)
 }
 
 func main() {
