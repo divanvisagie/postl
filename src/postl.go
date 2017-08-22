@@ -5,9 +5,12 @@ import (
 	"bytes"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 )
+
+var mylog = log.New(os.Stderr, "app: ", log.LstdFlags|log.Lshortfile)
 
 func executePost(url string, data string) string {
 	var dataBytes = []byte(data)
@@ -41,7 +44,7 @@ func main() {
 
 	args := os.Args[1:]
 	if len(args) < 1 {
-		panic("You need to pass in the url as a parameter")
+		mylog.Fatalln("You need to pass in the url as a parameter")
 	}
 
 	url := args[0]
