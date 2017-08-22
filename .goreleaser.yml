@@ -1,0 +1,10 @@
+# .goreleaser.yml
+builds:
+  - main: postl.go
+  - binary: postl
+    goos:
+      - windows
+      - darwin
+      - linux
+    goarch:
+      - amd64
