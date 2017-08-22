@@ -5,6 +5,7 @@ go:
 
 script: 
   - go build postl.go
+  - rm postl
 
 after_success:
   - test -n "$TRAVIS_TAG" && curl -sL https://git.io/goreleaser | bash
