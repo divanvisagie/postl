@@ -11,7 +11,6 @@ type Command struct {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
 
 	bodyBytes, err := ioutil.ReadAll(r.Body)
 	if err != nil {
@@ -19,7 +18,9 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 	bodyString := string(bodyBytes)
 
-	fmt.Println(bodyString)
+	fmt.Printf("got: %s \n", bodyString)
+
+	fmt.Fprintf(w, "Parsed:  %s!", bodyString)
 }
 
 func main() {
