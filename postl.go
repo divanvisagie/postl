@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 )
 
 var mylog = log.New(os.Stderr, "app: ", log.LstdFlags|log.Lshortfile)
@@ -40,6 +41,24 @@ func executePost(url string, data string) string {
 	return "Could not complete request"
 }
 
+func parseAndPost(url string, scannedText string) {
+	var text string
+	var urlToUse string
+
+	if scannedText[0] == '/' {
+		arguments := strings.Split(scannedText, " ")
+		text = strings.Join(arguments[1:], "")
+		urlToUse = url + arguments[0]
+		fmt.Println(text)
+	} else {
+		text = scannedText
+		urlToUse = url
+	}
+
+	responseText := executePost(urlToUse, text)
+	fmt.Println(responseText)
+}
+
 func main() {
 
 	args := os.Args[1:]
@@ -51,10 +70,9 @@ func main() {
 
 	scanner := bufio.NewScanner(os.Stdin)
 	for {
-		fmt.Printf("%s %s ", url, ">")
+		fmt.Printf("%s%s ", url, ">")
 		scanner.Scan()
 		text := scanner.Text()
-		responseText := executePost(url, text)
-		fmt.Println(responseText)
+		parseAndPost(url, text)
 	}
 }
