@@ -1,5 +1,4 @@
 language: go
-sudo: required
 
 go:
   - 1.8.3
@@ -7,8 +6,7 @@ go:
 script: 
   - go build postl.go
   - rm postl
-  - npm install -g bower
-  - cd static ; bower install ; polymer build; cd ..
+ 
 
 after_success:
   - test -n "$TRAVIS_TAG" && curl -sL https://git.io/goreleaser | bash
